@@ -1,0 +1,103 @@
+FROM centos:6
+
+MAINTAINER “Ramon Buckland” <ramon@thebuckland.com>
+
+
+#
+# Special custom YUM repos that have extra packages required by mr4c
+#
+
+RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+RUN rpm -Uvh http://elgis.argeo.org/repos/6/elgis-release-6-6_0.noarch.rpm
+
+#
+# Initial set of Development tools
+#
+RUN yum install -y \
+  tar bzip2 git vim subversion wget zip unzip screen \
+  ant ant-optional ivy libtool
+
+#
+# we need GCC 4.8+
+#
+RUN wget http://people.centos.org/tru/devtools-2/devtools-2.repo -O /etc/yum.repos.d/devtools-2.repo
+RUN yum -y install devtoolset-2-gcc devtoolset-2-binutils devtoolset-2-gcc-c++
+
+ENV CC  /opt/rh/devtoolset-2/root/usr/bin/gcc  
+ENV CPP /opt/rh/devtoolset-2/root/usr/bin/cpp
+ENV CXX /opt/rh/devtoolset-2/root/usr/bin/c++
+
+RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/* /usr/local/bin/
+
+#
+# mr4c wants gdal 1.10 (it does compile with older 1.9 .. but let's not tempt fate)
+# these RPMS were found :-)
+#
+
+ADD gdal-rpms/gdal-java-1.11.2-1.el6.x86_64.rpm /tmp/
+ADD gdal-rpms/gdal-libs-1.11.2-1.el6.x86_64.rpm /tmp/
+ADD gdal-rpms/gdal-devel-1.11.2-1.el6.x86_64.rpm /tmp/
+ADD gdal-rpms/gdal-1.11.2-1.el6.x86_64.rpm /tmp/
+RUN yum -y --nogpgcheck localinstall /tmp/gdal*-1.11.2-1.el6.x86_64.rpm
+# RUN yum -y --nogpgcheck localinstall /tmp/gdal-java-1.11.2-1.el6.x86_64.rpm
+# RUN yum -y --nogpgcheck localinstall /tmp/gdal-libs-1.11.2-1.el6.x86_64.rpm
+# RUN yum -y --nogpgcheck localinstall /tmp/gdal-1.11.2-1.el6.x86_64.rpm
+# RUN yum -y --nogpgcheck localinstall /tmp/gdal-devel-1.11.2-1.el6.x86_64.rpm
+
+#
+# mr4c Development Dependencies
+#
+RUN yum -y install blas lapack atlas \
+           cppunit cppunit-devel \
+           jansson jansson-devel \
+           proj proj-devel
+#
+# maven and any + ivy the redhat / centos way
+#
+
+RUN yum -y install apache-ant apache-ivy ant-junit
+
+#
+# install CDH Repo and install hadoop client
+#
+RUN wget http://archive.cloudera.com/cdh5/redhat/5/x86_64/cdh/cloudera-cdh5.repo -O /etc/yum.repos.d/cloudera-cdh5.repo  && \
+    yum clean all && yum -y install hadoop-client
+
+#
+# log4cxx required development libraries
+#
+RUN yum install -y apr apr-util apr-devel apr-util-devel
+
+#
+# for gdal include headers (and mr4c build will need this)
+#
+ENV CPLUS_INCLUDE_PATH /usr/include/gdal
+ENV C_INCLUDE_PATH /usr/include/gdal
+
+#
+# download log4j src and compile it
+#
+RUN svn checkout http://svn.apache.org/repos/asf/incubator/log4cxx/trunk apache-log4cxx && \
+   cd apache-log4cxx && \
+   ./autogen.sh &&  \
+   ./configure && \
+   make && \
+   make install && \
+   echo /usr/local/lib > /etc/ld.so.conf.d/usrlocal.conf && \
+   ldconfig
+
+#
+# download mr4c
+#
+RUN mkdir /opt/build/mr4c && \
+    cd /opt/build/mr4c && \
+    git clone https://github.com/google/mr4c.git .
+
+#
+# build and install mr4c
+#
+RUN cd /opt/build/mr4c && \
+    ./build_all && \
+    ./deploy_all
+
+VOLUME ["/opt/projects"]

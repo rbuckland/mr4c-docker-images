@@ -1,0 +1,54 @@
+docker run --volume `pwd`/..:/opt/docker-image -ti centos6-dev /bin/bash
+
+```
+# inside the docker image
+ln -s /opt/docker-image/mr4cdev-centos/rpmbuild /root/rpmbuild 
+```
+
+```
+	armadillo-devel is needed by gdal-1.11.2-1.el6.x86_64
+	cfitsio-devel is needed by gdal-1.11.2-1.el6.x86_64
+	CharLS-devel is needed by gdal-1.11.2-1.el6.x86_64
+	chrpath is needed by gdal-1.11.2-1.el6.x86_64
+	curl-devel is needed by gdal-1.11.2-1.el6.x86_64
+	doxygen is needed by gdal-1.11.2-1.el6.x86_64
+	expat-devel is needed by gdal-1.11.2-1.el6.x86_64
+	fontconfig-devel is needed by gdal-1.11.2-1.el6.x86_64
+	freexl-devel is needed by gdal-1.11.2-1.el6.x86_64
+	g2clib-static is needed by gdal-1.11.2-1.el6.x86_64
+	geos-devel is needed by gdal-1.11.2-1.el6.x86_64
+	ghostscript is needed by gdal-1.11.2-1.el6.x86_64
+	hdf-devel is needed by gdal-1.11.2-1.el6.x86_64
+	hdf-static is needed by gdal-1.11.2-1.el6.x86_64
+	hdf5-devel is needed by gdal-1.11.2-1.el6.x86_64
+	jasper-devel is needed by gdal-1.11.2-1.el6.x86_64
+	libgeotiff-devel is needed by gdal-1.11.2-1.el6.x86_64
+	libgta-devel is needed by gdal-1.11.2-1.el6.x86_64
+	libjpeg-devel is needed by gdal-1.11.2-1.el6.x86_64
+	libpng-devel is needed by gdal-1.11.2-1.el6.x86_64
+	libspatialite-devel is needed by gdal-1.11.2-1.el6.x86_64
+	libtiff-devel is needed by gdal-1.11.2-1.el6.x86_64
+	libwebp-devel is needed by gdal-1.11.2-1.el6.x86_64
+	libtool is needed by gdal-1.11.2-1.el6.x86_64
+	giflib-devel is needed by gdal-1.11.2-1.el6.x86_64
+	netcdf-devel is needed by gdal-1.11.2-1.el6.x86_64
+	libdap-devel is needed by gdal-1.11.2-1.el6.x86_64
+	librx-devel is needed by gdal-1.11.2-1.el6.x86_64
+	mysql-devel is needed by gdal-1.11.2-1.el6.x86_64
+	numpy is needed by gdal-1.11.2-1.el6.x86_64
+	pcre-devel is needed by gdal-1.11.2-1.el6.x86_64
+	ogdi-devel is needed by gdal-1.11.2-1.el6.x86_64
+	perl(ExtUtils::MakeMaker) is needed by gdal-1.11.2-1.el6.x86_64
+	poppler-devel is needed by gdal-1.11.2-1.el6.x86_64
+	postgresql-devel is needed by gdal-1.11.2-1.el6.x86_64
+	proj-devel is needed by gdal-1.11.2-1.el6.x86_64
+	python2-devel is needed by gdal-1.11.2-1.el6.x86_64
+	sqlite-devel is needed by gdal-1.11.2-1.el6.x86_64
+	swig is needed by gdal-1.11.2-1.el6.x86_64
+	texlive-latex is needed by gdal-1.11.2-1.el6.x86_64
+	unixODBC-devel is needed by gdal-1.11.2-1.el6.x86_64
+	xerces-c-devel is needed by gdal-1.11.2-1.el6.x86_64
+	xz-devel is needed by gdal-1.11.2-1.el6.x86_64
+	zlib-devel is needed by gdal-1.11.2-1.el6.x86_64
+```
+
