@@ -100,8 +100,8 @@ RUN mkdir /opt/build/mr4c && \
 #
 # build and install mr4c
 #
-RUN cd /opt/build/mr4c && \
-    ./build_all && \
-    ./deploy_all
+WORKDIR /opt/build/mr4c
+RUN ./build_all 
+RUN ./deploy_all
 
 VOLUME ["/opt/projects"]
