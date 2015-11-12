@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:15
 
 MAINTAINER “Ramon Buckland” <ramon@thebuckland.com>
 

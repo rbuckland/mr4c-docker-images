@@ -12,9 +12,9 @@ Therefore working with mr4c, from within a docker container makes the setup and 
 Because the C and C++ libraries are compiled to OS ones, and the actual Shared Libs are launched into the cluster, it then goes that the docker image that you use
 has to match the hadoop cluster OS version. Of course, your mileage will vary if you try otherwise, but I can fair guess what the issues would be.
 
-So with that in mind, the Docker Image has to be the OS equivalent to the nodes where your code executes.
+> The Docker Image FROM tag has to be the OS equivalent to your Hadoop Cluster OS 
 
-If you are running an Hadoop Cluster that is NOT one of the ones I have developed, and feel so inclined as to build one; then create a Pull request to others may benefit.
+If you are running an Hadoop Cluster that is NOT one of the ones I have developed, and feel so inclined as to build one; then create a Pull request so others may benefit.
 
 I am sure the Centos 6 and the Ubuntu image provided are a VERY good starting base.
 

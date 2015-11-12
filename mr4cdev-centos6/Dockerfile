@@ -14,8 +14,14 @@ RUN rpm -Uvh http://elgis.argeo.org/repos/6/elgis-release-6-6_0.noarch.rpm
 # Initial set of Development tools
 #
 RUN yum install -y \
-  tar bzip2 git vim subversion wget zip unzip screen \
+  tar bzip2 git vim subversion wget zip unzip screen sudo \
   ant ant-optional ivy
+
+#
+# we don't need sudo because in docker we are root, but mr4c ./deploy_all (further down) uses sudo
+# but centos/redhat has issue: http://unix.stackexchange.com/questions/122616/why-do-i-need-a-tty-to-run-sudo-if-i-can-sudo-without-a-password
+#
+RUN sed -i -e 's/Defaults.*requiretty//' /etc/sudoers
 
 #
 # we need GCC 4.8+
@@ -39,10 +45,6 @@ ADD gdal-rpms/gdal-libs-1.11.2-1.el6.x86_64.rpm /tmp/
 ADD gdal-rpms/gdal-devel-1.11.2-1.el6.x86_64.rpm /tmp/
 ADD gdal-rpms/gdal-1.11.2-1.el6.x86_64.rpm /tmp/
 RUN yum -y --nogpgcheck localinstall /tmp/gdal*-1.11.2-1.el6.x86_64.rpm
-# RUN yum -y --nogpgcheck localinstall /tmp/gdal-java-1.11.2-1.el6.x86_64.rpm
-# RUN yum -y --nogpgcheck localinstall /tmp/gdal-libs-1.11.2-1.el6.x86_64.rpm
-# RUN yum -y --nogpgcheck localinstall /tmp/gdal-1.11.2-1.el6.x86_64.rpm
-# RUN yum -y --nogpgcheck localinstall /tmp/gdal-devel-1.11.2-1.el6.x86_64.rpm
 
 #
 # mr4c Development Dependencies
@@ -93,14 +95,14 @@ RUN cd apache-log4cxx && \
 #
 # download mr4c
 #
-RUN mkdir /opt/build/mr4c && \
-    cd /opt/build/mr4c && \
-    git clone https://github.com/google/mr4c.git .
+RUN mkdir /opt/build/mr4c
+WORKDIR /opt/build/mr4c
+RUN git clone https://github.com/google/mr4c.git .
 
 #
 # build and install mr4c
 #
-WORKDIR /opt/build/mr4c
+
 RUN ./build_all 
 RUN ./deploy_all
 
