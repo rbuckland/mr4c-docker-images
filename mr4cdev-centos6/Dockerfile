@@ -40,11 +40,11 @@ RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/* /usr/local/bin/
 # these RPMS were found :-)
 #
 
-ADD gdal-rpms/gdal-java-1.11.2-1.el6.x86_64.rpm /tmp/
-ADD gdal-rpms/gdal-libs-1.11.2-1.el6.x86_64.rpm /tmp/
-ADD gdal-rpms/gdal-devel-1.11.2-1.el6.x86_64.rpm /tmp/
-ADD gdal-rpms/gdal-1.11.2-1.el6.x86_64.rpm /tmp/
-RUN yum -y --nogpgcheck localinstall /tmp/gdal*-1.11.2-1.el6.x86_64.rpm
+ADD http://ftp.tmapy.cz/tmapy-twist/centos/6Server/testing/x86_64/RPMS/gdal-java-1.11.2-1.el6.x86_64.rpm /tmp/
+ADD http://ftp.tmapy.cz/tmapy-twist/centos/6Server/testing/x86_64/RPMS/gdal-libs-1.11.2-1.el6.x86_64.rpm /tmp/
+ADD http://ftp.tmapy.cz/tmapy-twist/centos/6Server/testing/x86_64/RPMS/gdal-devel-1.11.2-1.el6.x86_64.rpm /tmp/
+ADD http://ftp.tmapy.cz/tmapy-twist/centos/6Server/testing/x86_64/RPMS/gdal-1.11.2-1.el6.x86_64.rpm /tmp/
+RUN yum -y --nogpgcheck localinstall /tmp/gdal*-1.11.2-1.el6.x86_64.rpm && rm /tmp/gdal*.rpm
 
 #
 # mr4c Development Dependencies
@@ -82,7 +82,8 @@ ENV C_INCLUDE_PATH /usr/include/gdal
 RUN yum -y install libtool
 WORKDIR /opt/build
 RUN svn checkout http://svn.apache.org/repos/asf/incubator/log4cxx/trunk apache-log4cxx 
-ADD auto*noarch.rpm /tmp/
+ADD ftp://ftp.pbone.net/mirror/ftp5.gwdg.de/pub/opensuse/repositories/home:/monkeyiq:/centos6updates/CentOS_CentOS-6/noarch/autoconf-2.69-12.2.noarch.rpm /tmp/
+ADD ftp://ftp.pbone.net/mirror/ftp5.gwdg.de/pub/opensuse/repositories/home:/monkeyiq:/centos6updates/CentOS_CentOS-6/noarch/automake-1.13.4-3.2.noarch.rpm /tmp/
 RUN yum -y --nogpgcheck localinstall /tmp/auto*noarch.rpm
 RUN cd apache-log4cxx && \
    ./autogen.sh &&  \
