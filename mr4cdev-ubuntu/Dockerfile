@@ -1,7 +1,5 @@
 FROM ubuntu:15.10
 
-MAINTAINER “Ramon Buckland” <ramon@thebuckland.com>
-
 #
 # Development tools
 #
@@ -14,11 +12,11 @@ RUN apt-get -y update && apt-get -y install \
 # link Ant Ivy in
 #
 RUN ln -s -T /usr/share/java/ivy.jar /usr/share/ant/lib/ivy.jar
- 
+
 #
 # install CDH Repo and install hadoop client
 #
-RUN wget http://archive.cloudera.com/cdh5/one-click-install/trusty/amd64/cdh5-repository_1.0_all.deb && \ 
+RUN wget http://archive.cloudera.com/cdh5/one-click-install/trusty/amd64/cdh5-repository_1.0_all.deb && \
     dpkg -i cdh5-repository_1.0_all.deb && \
     rm -f cdh5-repository_1.0_all.deb && \
     apt-get update && apt-get -y install hadoop-client
