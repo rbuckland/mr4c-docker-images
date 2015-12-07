@@ -1,7 +1,5 @@
 FROM centos:6
 
-MAINTAINER “Ramon Buckland” <ramon@thebuckland.com>
-
 
 #
 # Special custom YUM repos that have extra packages required by mr4c
